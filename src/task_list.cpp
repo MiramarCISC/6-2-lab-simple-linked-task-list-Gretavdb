@@ -4,62 +4,128 @@
 using namespace std;
 
 bool isValidPriority(int priority) {
-    // TODO: Return true when priority is from 1 to 5.
-    return false;
+    // Return true when priority is from 1 to 5.
+    return priority >= 1 && priority <= 5;
 }
 
 Task createTask(string description, int priority) {
     Task task;
 
-    // TODO:
     // Store the description.
+    task.description = description;
+
     // Store the priority if valid; otherwise store 1.
+    if (isValidPriority(priority)) {
+        task.priority = priority; 
+    }
+    else {
+        task.priority = 1;
+    }
+
     // New tasks should start as not completed.
+    task.completed = false;
 
     return task;
 }
 
 void insertFront(TaskNode*& head, Task task) {
-    // TODO:
     // Dynamically allocate a new TaskNode.
+    TaskNode* newNode = new TaskNode;
+
     // Store task in the node.
+    newNode->data = task;
+
     // Point the new node to the old head.
+    newNode->next = head;
+
     // Update head.
+    head = newNode;
 }
 
 int countTasks(const TaskNode* head) {
-    // TODO: Traverse the list and count nodes.
-    return 0;
+    // Traverse the list and count nodes.
+    int count = 0;
+
+    const TaskNode* current = head;
+
+    while (current != nullptr) {
+        count++;
+        current = current->next;
+    }
+
+    return count;
 }
 
 TaskNode* findTask(TaskNode* head, string description) {
-    // TODO:
+    TaskNode* current = head;
+
     // Traverse the list.
-    // Return the first node whose task description matches.
+    while (current != nullptr) {
+
+        if (current->data.description == description) {
+            return current;
+        }
+
+        current = current->next;
+    }
     // Return nullptr if not found.
     return nullptr;
 }
 
 bool markTaskComplete(TaskNode* head, string description) {
-    // TODO:
     // Find the task.
-    // If found, set completed to true and return true.
-    // Otherwise return false.
-    return false;
+    TaskNode* taskNode = findTask(head, description);
+
+    if (taskNode == nullptr) {
+        return false;
+    }
+
+    taskNode->data.completed = true;
+
+    return true;
 }
 
 int removeCompletedTasks(TaskNode*& head) {
-    // TODO:
+    int removed = 0;
+
+    while (head != nullptr && head->data.completed) {
+        TaskNode* temp = head;
+        head = head->next;
+
+        delete temp;
+        removed++;
+    }
+
+    TaskNode* current = head;
+
+    while (current != nullptr && current->next != nullptr) {
+        if (current->next->data.completed) {
+            TaskNode* temp = current->next;
+            current->next = temp->next;
+
+            delete temp;
+            removed++;
+        }
+        else {
+            current = current->next;
+        }
+    }
     // Remove all completed tasks.
     // Return the number of removed nodes.
     // Be sure to handle completed tasks at the head of the list.
-    return 0;
+    return removed;
 }
 
 void clearTasks(TaskNode*& head) {
-    // TODO:
     // Delete every node in the list.
+    while (head != nullptr) {
+        TaskNode* temp = head;
+        head = head->next;
+
+        delete temp;
+    }
     // Set head to nullptr.
+    head = nullptr;
 }
 
 void printTask(const Task& task) {
