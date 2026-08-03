@@ -90,6 +90,7 @@ int removeCompletedTasks(TaskNode*& head) {
 
     while (head != nullptr && head->data.completed) {
         TaskNode* temp = head;
+        //Darren: you can add space here for better readability 
         head = head->next;
 
         delete temp;
@@ -113,7 +114,7 @@ int removeCompletedTasks(TaskNode*& head) {
     // Remove all completed tasks.
     // Return the number of removed nodes.
     // Be sure to handle completed tasks at the head of the list.
-    return removed;
+    return removed;                                                //Get rid of the TODO's for cleaner code
 }
 
 void clearTasks(TaskNode*& head) {
